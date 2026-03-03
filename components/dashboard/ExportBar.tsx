@@ -36,22 +36,22 @@ export default function ExportBar({ targetId }: Props) {
   };
 
   return (
-    <div className="flex items-center justify-end gap-2">
-      <span className="text-white/20 text-xs mr-1">
-        <Download className="w-3 h-3 inline mr-1" />
-        Export:
+    <div className="flex items-center justify-end gap-2 pr-2">
+      <span className="text-[#465C88] text-[10px] font-bold uppercase tracking-widest mr-2">
+        <Download className="w-3 h-3 inline mr-1.5" />
+        Snapshot
       </span>
       <button
         onClick={exportPNG}
         disabled={exporting}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-white/40 border border-white/10 hover:bg-white/10 hover:text-white/60 transition-all duration-200 disabled:opacity-40"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest bg-black/40 text-[#465C88] border border-[#465C88]/20 hover:bg-[#465C88]/10 hover:text-[#E9E3DF] hover:border-[#465C88]/40 transition-all duration-300 disabled:opacity-40 shadow-sm"
       >
         {exporting ? (
-          <Loader2 className="w-3 h-3 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : (
-          <Image className="w-3 h-3" />
+          <Image className="w-3.5 h-3.5 text-[#FF7A30]" />
         )}
-        PNG
+        Download PNG
       </button>
     </div>
   );

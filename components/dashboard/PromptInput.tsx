@@ -37,21 +37,21 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
   };
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+    <div className="bg-black/40 border border-[#465C88]/20 backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-2xl">
       {/* Model Selector */}
       <div className="flex flex-wrap gap-2">
         {MODELS.map((model) => (
           <button
             key={model.id}
             onClick={() => toggleModel(model.id)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all duration-200 ${
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
               selectedModels.includes(model.id)
-                ? `${model.bgColor} ${model.color} border-current`
-                : "bg-white/5 text-white/30 border-white/10 hover:border-white/20"
+                ? `${model.bgColor} ${model.color} border-current shadow-sm`
+                : "bg-black/20 text-[#465C88] border-[#465C88]/20 hover:border-[#465C88]/40 hover:text-[#465C88]/80"
             }`}
           >
             {model.name}
-            <span className="ml-1.5 text-xs opacity-60">{model.provider}</span>
+            <span className="ml-1.5 text-[9px] opacity-50 uppercase">{model.provider}</span>
           </button>
         ))}
       </div>
@@ -60,8 +60,8 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
       <Textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Ask anything — compare how each model responds..."
-        className="bg-white/5 border-white/10 text-white placeholder:text-white/20 resize-none min-h-[120px] text-sm focus:ring-violet-500 focus:border-violet-500"
+        placeholder="Input your query — Compare model performance..."
+        className="bg-black/20 border-[#465C88]/20 text-[#E9E3DF] placeholder:text-[#465C88]/40 resize-none min-h-[140px] text-sm focus:ring-[#FF7A30] focus:border-[#FF7A30] transition-all duration-300 rounded-xl"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}
@@ -69,35 +69,35 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
 
       {/* Footer */}
       <div className="flex items-center justify-between">
-        <span className="text-white/20 text-xs">
-          Press Ctrl+Enter to submit
+        <span className="text-[#465C88]/60 text-[10px] font-medium uppercase tracking-widest">
+          Ctrl + Enter to execute
         </span>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="text-white/40 hover:text-white/70 hover:bg-white/5"
+            className="text-[#465C88] hover:text-[#FF7A30] hover:bg-[#FF7A30]/5 text-[10px] font-bold uppercase tracking-wider"
           >
-            <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
-            Reset
+            <RotateCcw className="w-3.5 h-3.5 mr-2" />
+            Clear
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-violet-600 hover:bg-violet-500 text-white text-sm px-4"
+            className="bg-[#FF7A30] hover:bg-[#FF7A30]/90 text-black text-[10px] font-bold uppercase tracking-widest px-6 shadow-[0_0_15px_rgba(255,122,48,0.2)]"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-                Comparing...
+                <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />
+                Processing
               </>
             ) : (
               <>
-                <Send className="w-3.5 h-3.5 mr-1.5" />
-                Compare
+                <Send className="w-3.5 h-3.5 mr-2" />
+                Execute
               </>
             )}
           </Button>
