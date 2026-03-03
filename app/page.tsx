@@ -4,6 +4,7 @@ import { useState } from "react";
 import Header from "@/components/dashboard/Header";
 import PromptInput from "@/components/dashboard/PromptInput";
 import ComparisonGrid from "@/components/dashboard/ComparisonGrid";
+import ExportBar from "@/components/dashboard/ExportBar";
 import PromptHistory, {
   HistoryEntry,
 } from "@/components/dashboard/PromptHistory";
@@ -102,13 +103,20 @@ export default function Home() {
           onReset={handleReset}
         />
 
+        {/* Export Bar */}
+        {!isLoading && Object.keys(responses).length > 0 && (
+          <ExportBar targetId="comparison-results" />
+        )}
+
         {/* Results Grid */}
         {(isLoading || Object.keys(responses).length > 0) && (
-          <ComparisonGrid
-            responses={responses}
-            isLoading={isLoading}
-            selectedModels={selectedModels}
-          />
+          <div id="comparison-results">
+            <ComparisonGrid
+              responses={responses}
+              isLoading={isLoading}
+              selectedModels={selectedModels}
+            />
+          </div>
         )}
       </div>
     </main>
