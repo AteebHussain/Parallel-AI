@@ -18,10 +18,6 @@ export default function Header() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="text-primary text-[10px] font-bold uppercase tracking-wider">Live</span>
-          </div>
         </div>
       </div>
     </header>

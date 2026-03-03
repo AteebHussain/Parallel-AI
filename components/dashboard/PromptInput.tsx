@@ -37,7 +37,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
   };
 
   return (
-    <div className="bg-card/40 border border-border backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-sm">
+    <div className="bg-[#222831] border border-border/50 rounded-2xl p-6 space-y-4 shadow-sm">
       {/* Model Selector */}
       <div className="flex flex-wrap gap-2">
         {MODELS.map((model) => (
@@ -47,7 +47,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
               selectedModels.includes(model.id)
                 ? `${model.bgColor} ${model.color} border-current shadow-sm`
-                : "bg-secondary/20 text-muted-foreground border-border hover:border-muted-foreground/40 hover:text-muted-foreground/80"
+                : "bg-transparent text-muted-foreground/40 border-border/50 hover:border-border hover:text-muted-foreground"
             }`}
           >
             {model.name}
@@ -60,24 +60,21 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
       <Textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Input your query — Compare model performance..."
-        className="bg-secondary/20 border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary transition-all duration-300 rounded-xl"
+        placeholder="Ask anything -- compare how each model responds..."
+        className="bg-[#393E46] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary transition-all duration-300 rounded-xl shadow-inner"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}
       />
 
       {/* Footer */}
-      <div className="flex items-center justify-between">
-        <span className="text-muted-foreground/60 text-[10px] font-medium uppercase tracking-widest">
-          Ctrl + Enter to execute
-        </span>
+      <div className="flex items-center justify-end">
         <div className="flex gap-3">
           <Button
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="text-muted-foreground hover:text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-wider"
+            className="text-muted-foreground/60 hover:text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-wider"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-2" />
             Clear
@@ -87,7 +84,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-8 shadow-sm"
           >
             {isLoading ? (
               <>
@@ -97,7 +94,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             ) : (
               <>
                 <Send className="w-3.5 h-3.5 mr-2" />
-                Execute
+                Compare
               </>
             )}
           </Button>

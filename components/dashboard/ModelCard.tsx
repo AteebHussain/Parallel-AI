@@ -47,7 +47,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`rounded-2xl border p-5 flex flex-col gap-4 min-h-[300px] ${model.bgColor} bg-background/40 backdrop-blur-md shadow-sm`}
+      className={`rounded-2xl border p-5 flex flex-col gap-4 min-h-[300px] ${model.bgColor} backdrop-blur-md shadow-sm transition-colors duration-500`}
     >
       {/* Card Header */}
       <div className="flex items-center justify-between">
@@ -120,13 +120,13 @@ export default function ModelCard({ model, response, isLoading }: Props) {
             onClick={handleCopy}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
               copied
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-secondary text-secondary-foreground border border-border hover:bg-secondary/80 hover:text-foreground"
+                ? "bg-[#393E46] text-foreground border border-border shadow-sm"
+                : "bg-background/20 text-muted-foreground border border-border/50 hover:bg-[#393E46] hover:text-foreground hover:border-border"
             }`}
           >
             {copied ? (
               <>
-                <Check className="w-3 h-3" />
+                <Check className="w-3 h-3 text-primary" />
                 Copied
               </>
             ) : (
