@@ -75,11 +75,25 @@ export default function Home() {
                 [data.modelId]: {
                   text: prev + data.text,
                   latency: Date.now() - startTimes[data.modelId],
+                  tokens:
+                    data.tokens ?? responsesRef.current[data.modelId]?.tokens ?? 0,
                 },
               };
               responsesRef.current = updated;
               setResponses({ ...updated });
             } else if (data.type === "done" && data.modelId) {
+              if (data.tokens) {
+                const updated = {
+                  ...responsesRef.current,
+                  [data.modelId]: {
+                    ...responsesRef.current[data.modelId],
+                    tokens: data.tokens,
+                    latency: Date.now() - startTimes[data.modelId],
+                  },
+                };
+                responsesRef.current = updated;
+                setResponses({ ...updated });
+              }
               setStreamingModels((prev) => {
                 const next = new Set(prev);
                 next.delete(data.modelId);

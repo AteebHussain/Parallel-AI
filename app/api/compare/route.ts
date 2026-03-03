@@ -20,14 +20,13 @@ export async function POST(req: NextRequest) {
         );
       };
 
-      // Call all models in parallel, streaming chunks as they arrive
       await Promise.allSettled(
         models.map(async (modelId: string) => {
           try {
-            await streamOpenRouter(modelId, prompt, (chunk) => {
+            const tokens = await streamOpenRouter(modelId, prompt, (chunk) => {
               send({ modelId, type: "chunk", text: chunk });
             });
-            send({ modelId, type: "done" });
+            send({ modelId, type: "done", tokens });
           } catch (err) {
             send({
               modelId,
@@ -56,7 +55,7 @@ async function streamOpenRouter(
   modelId: string,
   prompt: string,
   onChunk: (text: string) => void,
-) {
+): Promise<number> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     throw new Error("OPENROUTER_API_KEY is not set in .env.local");
@@ -75,6 +74,7 @@ async function streamOpenRouter(
       messages: [{ role: "user", content: prompt }],
       max_tokens: 1000,
       stream: true,
+      stream_options: { include_usage: true },
     }),
   });
 
@@ -90,6 +90,7 @@ async function streamOpenRouter(
 
   const decoder = new TextDecoder();
   let buffer = "";
+  let totalTokens = 0;
 
   while (true) {
     const { done, value } = await reader.read();
@@ -103,17 +104,22 @@ async function streamOpenRouter(
       const trimmed = line.trim();
       if (!trimmed || !trimmed.startsWith("data: ")) continue;
       const data = trimmed.slice(6);
-      if (data === "[DONE]") return;
+      if (data === "[DONE]") break;
 
       try {
         const parsed = JSON.parse(data);
         const content = parsed.choices?.[0]?.delta?.content;
-        if (content) {
-          onChunk(content);
+        if (content) onChunk(content);
+
+        // Capture token usage from the final chunk
+        if (parsed.usage?.total_tokens) {
+          totalTokens = parsed.usage.total_tokens;
         }
       } catch {
         // Skip malformed chunks
       }
     }
   }
+
+  return totalTokens;
 }
