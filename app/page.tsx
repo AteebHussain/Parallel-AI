@@ -148,7 +148,7 @@ export default function Home() {
   const hasResponses = Object.keys(responses).length > 0;
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       <Header />
 
       {/* Prompt History Sidebar */}
@@ -163,13 +163,13 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-6">
         {/* Hero Text */}
         <div className="text-center space-y-3 pb-6">
-          <h2 className="text-4xl font-black text-[#E9E3DF] tracking-tight">
+          <h2 className="text-4xl font-black text-foreground tracking-tight">
             Compare AI Models{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7A30] to-[#465C88]">
+            <span className="text-primary">
               Side by Side
             </span>
           </h2>
-          <p className="text-[#465C88] text-sm font-medium max-w-lg mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-sm font-medium max-w-lg mx-auto leading-relaxed">
             Enter a prompt below and see how Gemma, Nemotron, Step, and
             Trinity respond — with latency and token usage tracked in real time.
           </p>

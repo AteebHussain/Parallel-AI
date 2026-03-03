@@ -38,7 +38,7 @@ export default function PromptHistory({
       {/* Toggle Button — always visible */}
       <button
         onClick={onToggle}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-[#465C88]/10 border border-[#465C88]/20 border-l-0 rounded-r-xl p-2.5 text-[#465C88] hover:text-[#FF7A30] hover:bg-[#FF7A30]/5 transition-all duration-300 backdrop-blur-md shadow-lg"
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-secondary/10 border border-border border-l-0 rounded-r-xl p-2.5 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 backdrop-blur-md shadow-sm"
         title={isOpen ? "Close history" : "Open history"}
       >
         {isOpen ? (
@@ -56,23 +56,23 @@ export default function PromptHistory({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed left-0 top-0 h-full w-80 bg-black/95 backdrop-blur-2xl border-r border-[#465C88]/20 z-40 flex flex-col shadow-2xl"
+            className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-2xl border-r border-border z-40 flex flex-col shadow-sm"
           >
             {/* Header */}
-            <div className="p-6 border-b border-[#465C88]/10 flex items-center justify-between">
+            <div className="p-6 border-b border-border/50 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <MessageSquare className="w-4 h-4 text-[#FF7A30]" />
-                <h2 className="text-[#E9E3DF] font-bold text-sm tracking-wide">
+                <MessageSquare className="w-4 h-4 text-primary" />
+                <h2 className="text-foreground font-bold text-sm tracking-wide">
                   History
                 </h2>
-                <span className="text-[#465C88] text-[10px] font-bold">
+                <span className="text-muted-foreground text-[10px] font-bold">
                   [{history.length}]
                 </span>
               </div>
               {history.length > 0 && (
                 <button
                   onClick={onClear}
-                  className="text-[#465C88] hover:text-[#FF7A30] transition-all p-1.5 rounded-lg hover:bg-[#FF7A30]/5"
+                  className="text-muted-foreground hover:text-primary transition-all p-1.5 rounded-lg hover:bg-primary/5"
                   title="Clear history"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -83,7 +83,7 @@ export default function PromptHistory({
             {/* History List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
               {history.length === 0 ? (
-                <div className="text-center py-16 text-[#465C88]/40 text-xs italic">
+                <div className="text-center py-16 text-muted-foreground/40 text-xs italic">
                   <MessageSquare className="w-8 h-8 mx-auto mb-4 opacity-20" />
                   <p>Your timeline is empty.</p>
                 </div>
@@ -95,17 +95,17 @@ export default function PromptHistory({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => onSelect(entry)}
-                    className="w-full text-left p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-[#465C88]/10 hover:border-[#465C88]/30 transition-all duration-300 group shadow-sm"
+                    className="w-full text-left p-4 rounded-xl bg-secondary/5 border border-border/50 hover:bg-secondary/10 hover:border-border transition-all duration-300 group shadow-sm"
                   >
-                    <p className="text-[#E9E3DF]/80 text-[13px] font-medium line-clamp-2 group-hover:text-[#E9E3DF] transition-colors leading-relaxed">
+                    <p className="text-foreground/80 text-[13px] font-medium line-clamp-2 group-hover:text-foreground transition-colors leading-relaxed">
                       {entry.prompt}
                     </p>
                     <div className="flex items-center justify-between mt-3">
-                      <span className="flex items-center gap-1.5 text-[#465C88] text-[10px] font-bold uppercase tracking-wider">
+                      <span className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
                         <Clock className="w-2.5 h-2.5" />
                         {formatTime(entry.timestamp)}
                       </span>
-                      <span className="text-[#465C88]/40 text-[9px] font-bold uppercase tracking-tighter">
+                      <span className="text-muted-foreground/40 text-[9px] font-bold uppercase tracking-tighter">
                         {entry.models.length} Models
                       </span>
                     </div>
@@ -125,7 +125,7 @@ export default function PromptHistory({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onToggle}
-            className="fixed inset-0 bg-black/60 z-30 lg:hidden backdrop-blur-sm"
+            className="fixed inset-0 bg-background/60 z-30 lg:hidden backdrop-blur-sm"
           />
         )}
       </AnimatePresence>

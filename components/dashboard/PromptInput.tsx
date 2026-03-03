@@ -37,7 +37,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
   };
 
   return (
-    <div className="bg-black/40 border border-[#465C88]/20 backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-2xl">
+    <div className="bg-card/40 border border-border backdrop-blur-md rounded-2xl p-6 space-y-4 shadow-sm">
       {/* Model Selector */}
       <div className="flex flex-wrap gap-2">
         {MODELS.map((model) => (
@@ -47,7 +47,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
               selectedModels.includes(model.id)
                 ? `${model.bgColor} ${model.color} border-current shadow-sm`
-                : "bg-black/20 text-[#465C88] border-[#465C88]/20 hover:border-[#465C88]/40 hover:text-[#465C88]/80"
+                : "bg-secondary/20 text-muted-foreground border-border hover:border-muted-foreground/40 hover:text-muted-foreground/80"
             }`}
           >
             {model.name}
@@ -61,7 +61,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Input your query — Compare model performance..."
-        className="bg-black/20 border-[#465C88]/20 text-[#E9E3DF] placeholder:text-[#465C88]/40 resize-none min-h-[140px] text-sm focus:ring-[#FF7A30] focus:border-[#FF7A30] transition-all duration-300 rounded-xl"
+        className="bg-secondary/20 border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary transition-all duration-300 rounded-xl"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}
@@ -69,7 +69,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
 
       {/* Footer */}
       <div className="flex items-center justify-between">
-        <span className="text-[#465C88]/60 text-[10px] font-medium uppercase tracking-widest">
+        <span className="text-muted-foreground/60 text-[10px] font-medium uppercase tracking-widest">
           Ctrl + Enter to execute
         </span>
         <div className="flex gap-3">
@@ -77,7 +77,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="text-[#465C88] hover:text-[#FF7A30] hover:bg-[#FF7A30]/5 text-[10px] font-bold uppercase tracking-wider"
+            className="text-muted-foreground hover:text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-wider"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-2" />
             Clear
@@ -87,7 +87,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-[#FF7A30] hover:bg-[#FF7A30]/90 text-black text-[10px] font-bold uppercase tracking-widest px-6 shadow-[0_0_15px_rgba(255,122,48,0.2)]"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-6 shadow-sm"
           >
             {isLoading ? (
               <>
