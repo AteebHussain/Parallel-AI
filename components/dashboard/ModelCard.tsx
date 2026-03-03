@@ -5,6 +5,7 @@ import { Loader2, AlertCircle, Clock, Hash, Copy, Check } from "lucide-react";
 import { Model } from "@/lib/models";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 type ResponseData = {
   text?: string;
@@ -105,9 +106,8 @@ export default function ModelCard({ model, response, isLoading }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="text-white/80 text-sm leading-relaxed whitespace-pre-wrap"
           >
-            {response.text}
+            <MarkdownRenderer content={response.text} />
           </motion.div>
         )}
       </div>
