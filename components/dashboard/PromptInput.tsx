@@ -61,7 +61,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Ask anything -- compare how each model responds..."
-        className="bg-[#393E46] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary transition-all duration-300 rounded-xl shadow-inner"
+        className="bg-[#393E46] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary focus-visible:ring-primary focus-visible:border-primary transition-all duration-300 rounded-xl shadow-inner outline-none"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}

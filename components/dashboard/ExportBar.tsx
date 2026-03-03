@@ -37,10 +37,6 @@ export default function ExportBar({ targetId }: Props) {
 
   return (
     <div className="flex items-center justify-end gap-2 pr-2">
-      <span className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest mr-2">
-        <Download className="w-3 h-3 inline mr-1.5" />
-        Snapshot
-      </span>
       <button
         onClick={exportPNG}
         disabled={exporting}
