@@ -84,7 +84,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-8 shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-8 shadow-[0_0_15px_rgba(255,211,105,0.4)] hover:shadow-[0_0_20px_rgba(255,211,105,0.6)] transition-shadow duration-300"
           >
             {isLoading ? (
               <>
