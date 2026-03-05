@@ -1,4 +1,10 @@
 import { NextRequest } from "next/server";
+import { headers } from "next/headers";
+
+// Very simple in-memory rate limiter (Warning: State is reset on serverless function spin-up)
+const rateLimit = new Map<string, { count: number; timestamp: number }>();
+const MAX_REQUESTS = 15; // Max 15 requests...
+const WINDOW_MS = 60 * 1000; // ...per minute
 
 export async function POST(req: NextRequest) {
   const { prompt, models } = await req.json();
@@ -6,6 +12,51 @@ export async function POST(req: NextRequest) {
   if (!prompt || !models || models.length === 0) {
     return new Response(JSON.stringify({ error: "Invalid request" }), {
       status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // 1. Basic input validation (prevent massive prompts)
+  if (prompt.length > 4000) {
+    return new Response(JSON.stringify({ error: "Prompt is too long" }), {
+      status: 413,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // 2. Optional: Basic Origin Check
+  // In development, this won't block localhost. In production, this adds a tiny layer of friction against direct cURL scripts that don't spoof the Origin.
+  const headersList = await headers();
+  const origin = headersList.get("origin") || headersList.get("referer");
+  if (
+    process.env.NODE_ENV === "production" &&
+    origin &&
+    !origin.includes("parallelai.vercel.app")
+  ) {
+    return new Response(JSON.stringify({ error: "Unauthorized Origin" }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // 3. In-Memory Rate Limiting
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  const now = Date.now();
+  const userRate = rateLimit.get(ip) || { count: 0, timestamp: now };
+
+  if (now - userRate.timestamp > WINDOW_MS) {
+    // Reset window
+    userRate.count = 1;
+    userRate.timestamp = now;
+  } else {
+    userRate.count++;
+  }
+
+  rateLimit.set(ip, userRate);
+
+  if (userRate.count > MAX_REQUESTS) {
+    return new Response(JSON.stringify({ error: "Too many requests. Please wait a minute." }), {
+      status: 429,
       headers: { "Content-Type": "application/json" },
     });
   }

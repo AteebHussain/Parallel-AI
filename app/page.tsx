@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Header from "@/components/dashboard/Header";
 import PromptInput from "@/components/dashboard/PromptInput";
 import ComparisonGrid from "@/components/dashboard/ComparisonGrid";
@@ -29,6 +29,17 @@ export default function Home() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const responsesRef = useRef<Record<string, ResponseData>>({});
+
+  useEffect(() => {
+    const saved = localStorage.getItem("parallelai_history");
+    if (saved) {
+      try {
+        setHistory(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to load history:", e);
+      }
+    }
+  }, []);
 
   const handleCompare = async (prompt: string, models: string[]) => {
     setIsLoading(true);
@@ -119,7 +130,11 @@ export default function Home() {
                 models,
                 timestamp: new Date(),
               };
-              setHistory((prev) => [entry, ...prev]);
+              setHistory((prev) => {
+                const next = [entry, ...prev];
+                localStorage.setItem("parallelai_history", JSON.stringify(next));
+                return next;
+              });
             }
           } catch {
             // Skip malformed SSE data
@@ -157,7 +172,10 @@ export default function Home() {
         isOpen={historyOpen}
         onToggle={() => setHistoryOpen(!historyOpen)}
         onSelect={handleHistorySelect}
-        onClear={() => setHistory([])}
+        onClear={() => {
+          setHistory([]);
+          localStorage.removeItem("parallelai_history");
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-6">
