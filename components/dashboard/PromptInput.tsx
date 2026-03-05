@@ -84,8 +84,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-primary hover:bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-widest px-8 shadow-[0_0_15px_rgba(255,211,105,0.4)] hover:shadow-[0_0_20px_rgba(255,211,105,0.6)] transition-shadow duration-300"
-          >
+            className="bg-[#FFD369] hover:bg-[#f5c842] text-[#222831] text-[10px] font-bold uppercase tracking-widest px-8 transition-colors duration-200"          >
             {isLoading ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />

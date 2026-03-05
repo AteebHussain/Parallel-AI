@@ -163,9 +163,14 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-6">
         {/* Hero Text */}
         <div className="text-center space-y-3 pb-6">
-          <h2 className="text-4xl font-black text-primary tracking-tight">
+          {/* <h2 className="text-4xl font-black text-primary tracking-tight">
             Compare AI Models Side by Side
+          </h2> */}
+          
+          <h2 className="text-4xl font-black tracking-tight">
+            <span className="text-[#FFD369]">Compare AI Models Side by Side</span>
           </h2>
+
           <p className="text-muted-foreground text-sm font-medium max-w-lg mx-auto leading-relaxed">
             Enter a prompt below and see how Gemma, Nemotron, Step, and
             Trinity respond — with latency and token usage tracked in real time.
