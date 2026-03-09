@@ -114,8 +114,8 @@ export default function ModelCard({ model, response, isLoading }: Props) {
             onClick={handleCopy}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
               copied
-                ? "bg-[#393E46] text-foreground border border-border shadow-sm"
-                : "bg-background/20 text-muted-foreground border border-border/50 hover:bg-[#393E46] hover:text-foreground hover:border-border"
+                ? "bg-[#3E3636] text-foreground border border-border shadow-sm"
+                : "bg-background/20 text-muted-foreground border border-border/50 hover:bg-[#3E3636] hover:text-foreground hover:border-border"
             }`}
           >
             {copied ? (

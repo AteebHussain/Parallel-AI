@@ -37,7 +37,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
   };
 
   return (
-    <div className="bg-[#222831] border border-border/50 rounded-2xl p-6 space-y-4 shadow-sm">
+    <div className="bg-[#000000] border border-border/50 rounded-2xl p-6 space-y-4 shadow-sm">
       {/* Model Selector */}
       <div className="flex flex-wrap gap-2">
         {MODELS.map((model) => (
@@ -61,7 +61,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Ask anything -- compare how each model responds..."
-        className="bg-[#393E46] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary focus-visible:ring-primary focus-visible:border-primary transition-all duration-300 rounded-xl shadow-inner outline-none"
+        className="bg-[#3E3636] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary focus-visible:ring-primary focus-visible:border-primary transition-all duration-300 rounded-xl shadow-inner outline-none"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}
@@ -84,7 +84,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-[#FFD369] hover:bg-[#f5c842] text-[#222831] text-[10px] font-bold uppercase tracking-widest px-8 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"          >
+            className="bg-[#D72323] hover:bg-[#c01f1f] text-[#F5EDED] text-[10px] font-bold uppercase tracking-widest px-8 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"          >
             {isLoading ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />

@@ -186,7 +186,7 @@ export default function Home() {
         {/* Hero Text */}
         <div className="text-center space-y-3 pb-6">
           <h2 className="text-4xl font-black tracking-tight">
-            <span className="text-[#FFD369]">Compare AI Models Side by Side</span>
+            <span className="text-[#D72323]">Compare AI Models Side by Side</span>
           </h2>
 
           <p className="text-muted-foreground text-sm font-medium max-w-lg mx-auto leading-relaxed">
