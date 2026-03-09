@@ -9,7 +9,7 @@ export default function Header() {
             <img src="/favicon.ico" alt="ParallelAI" className="w-6 h-6 object-contain" />
           </div>
           <div>
-            <h1 className="text-primary drop-shadow-[0_0_8px_rgba(255,211,105,0.4)] font-bold text-xl tracking-tight leading-none">
+            <h1 className="text-primary font-bold text-xl tracking-tight leading-none">
               ParallelAI
             </h1>
             <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-wider mt-1">

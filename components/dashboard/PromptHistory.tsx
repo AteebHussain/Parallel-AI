@@ -1,22 +1,8 @@
 "use client";
 
-import { Clock, MessageSquare, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Clock, MessageSquare, ChevronLeft, ChevronRight, Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-type ResponseData = {
-  text?: string;
-  error?: string;
-  latency?: number;
-  tokens?: number;
-};
-
-export type HistoryEntry = {
-  id: string;
-  prompt: string;
-  responses: Record<string, ResponseData>;
-  models: string[];
-  timestamp: Date;
-};
+import type { HistoryEntry } from "@/types";
 
 type Props = {
   history: HistoryEntry[];
@@ -24,6 +10,7 @@ type Props = {
   onToggle: () => void;
   onSelect: (entry: HistoryEntry) => void;
   onClear: () => void;
+  onDeleteEntry: (id: string) => void;
 };
 
 export default function PromptHistory({
@@ -32,6 +19,7 @@ export default function PromptHistory({
   onToggle,
   onSelect,
   onClear,
+  onDeleteEntry,
 }: Props) {
   return (
     <>
@@ -89,27 +77,41 @@ export default function PromptHistory({
                 </div>
               ) : (
                 history.map((entry, index) => (
-                  <motion.button
+                  <motion.div
                     key={entry.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    onClick={() => onSelect(entry)}
-                    className="w-full text-left p-4 rounded-xl bg-secondary/5 border border-border/50 hover:bg-secondary/10 hover:border-border transition-all duration-300 group shadow-sm"
+                    className="relative group"
                   >
-                    <p className="text-foreground/80 text-[13px] font-medium line-clamp-2 group-hover:text-foreground transition-colors leading-relaxed">
-                      {entry.prompt}
-                    </p>
-                    <div className="flex items-center justify-between mt-3">
-                      <span className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
-                        <Clock className="w-2.5 h-2.5" />
-                        {formatTime(entry.timestamp)}
-                      </span>
-                      <span className="text-muted-foreground/40 text-[9px] font-bold uppercase tracking-tighter">
-                        {entry.models.length} Models
-                      </span>
-                    </div>
-                  </motion.button>
+                    <button
+                      onClick={() => onSelect(entry)}
+                      className="w-full text-left p-4 rounded-xl bg-secondary/5 border border-border/50 hover:bg-secondary/10 hover:border-border transition-all duration-300 shadow-sm"
+                    >
+                      <p className="text-foreground/80 text-[13px] font-medium line-clamp-2 group-hover:text-foreground transition-colors leading-relaxed pr-6">
+                        {entry.prompt}
+                      </p>
+                      <div className="flex items-center justify-between mt-3">
+                        <span className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
+                          <Clock className="w-2.5 h-2.5" />
+                          {formatTime(entry.timestamp)}
+                        </span>
+                        <span className="text-muted-foreground/40 text-[9px] font-bold uppercase tracking-tighter">
+                          {entry.models.length} Models
+                        </span>
+                      </div>
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteEntry(entry.id);
+                      }}
+                      className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      title="Delete entry"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </motion.div>
                 ))
               )}
             </div>

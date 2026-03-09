@@ -6,13 +6,7 @@ import { Model } from "@/lib/models";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import MarkdownRenderer from "./MarkdownRenderer";
-
-type ResponseData = {
-  text?: string;
-  error?: string;
-  latency?: number;
-  tokens?: number;
-};
+import type { ResponseData } from "@/types";
 
 type Props = {
   model: Model;
@@ -55,7 +49,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
           <h3 className={`font-bold text-sm tracking-wide ${model.color}`}>
             {model.name}
           </h3>
-          <p className="text-muted-foreground text-[10px] font-semibold uppercase tracking-wider mt-0.5">{model.provider}</p>
+          <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-wider mt-0.5">{model.provider}</p>
         </div>
         <div className="flex gap-2">
           {response?.latency != null && response.latency > 0 && (
@@ -84,7 +78,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
         {isLoading && (
           <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium">
             <Loader2 className="w-3 h-3 animate-spin" />
-            <span>Processing...</span>
+            <span>Generating response...</span>
           </div>
         )}
 

@@ -84,7 +84,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             disabled={
               !prompt.trim() || selectedModels.length === 0 || isLoading
             }
-            className="bg-[#FFD369] hover:bg-[#f5c842] text-[#222831] text-[10px] font-bold uppercase tracking-widest px-8 transition-colors duration-200"          >
+            className="bg-[#FFD369] hover:bg-[#f5c842] text-[#222831] text-[10px] font-bold uppercase tracking-widest px-8 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"          >
             {isLoading ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 mr-2 animate-spin" />
