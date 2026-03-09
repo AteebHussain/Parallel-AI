@@ -5,17 +5,12 @@ import Header from "@/components/dashboard/Header";
 import PromptInput from "@/components/dashboard/PromptInput";
 import ComparisonGrid from "@/components/dashboard/ComparisonGrid";
 import ExportBar from "@/components/dashboard/ExportBar";
-import PromptHistory, {
-  HistoryEntry,
-} from "@/components/dashboard/PromptHistory";
+import PromptHistory from "@/components/dashboard/PromptHistory";
 import { MODELS } from "@/lib/models";
+import type { ResponseData, HistoryEntry } from "@/types";
 
-type ResponseData = {
-  text?: string;
-  error?: string;
-  latency?: number;
-  tokens?: number;
-};
+const HISTORY_KEY = "parallelai-history";
+const MAX_HISTORY_ENTRIES = 20;
 
 export default function Home() {
   const [responses, setResponses] = useState<Record<string, ResponseData>>({});
@@ -31,7 +26,7 @@ export default function Home() {
   const responsesRef = useRef<Record<string, ResponseData>>({});
 
   useEffect(() => {
-    const saved = localStorage.getItem("parallelai_history");
+    const saved = localStorage.getItem(HISTORY_KEY);
     if (saved) {
       try {
         setHistory(JSON.parse(saved));
@@ -131,8 +126,8 @@ export default function Home() {
                 timestamp: new Date(),
               };
               setHistory((prev) => {
-                const next = [entry, ...prev];
-                localStorage.setItem("parallelai_history", JSON.stringify(next));
+                const next = [entry, ...prev].slice(0, MAX_HISTORY_ENTRIES);
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
                 return next;
               });
             }
@@ -160,6 +155,14 @@ export default function Home() {
     setSelectedModels(MODELS.map((m) => m.id));
   };
 
+  const handleDeleteEntry = (id: string) => {
+    setHistory((prev) => {
+      const next = prev.filter((e) => e.id !== id);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
   const hasResponses = Object.keys(responses).length > 0;
 
   return (
@@ -174,17 +177,14 @@ export default function Home() {
         onSelect={handleHistorySelect}
         onClear={() => {
           setHistory([]);
-          localStorage.removeItem("parallelai_history");
+          localStorage.removeItem(HISTORY_KEY);
         }}
+        onDeleteEntry={handleDeleteEntry}
       />
 
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-6">
         {/* Hero Text */}
         <div className="text-center space-y-3 pb-6">
-          {/* <h2 className="text-4xl font-black text-primary tracking-tight">
-            Compare AI Models Side by Side
-          </h2> */}
-          
           <h2 className="text-4xl font-black tracking-tight">
             <span className="text-[#FFD369]">Compare AI Models Side by Side</span>
           </h2>
@@ -208,13 +208,19 @@ export default function Home() {
         )}
 
         {/* Results Grid */}
-        {(isLoading || hasResponses) && (
+        {(isLoading || hasResponses) ? (
           <div id="comparison-results">
             <ComparisonGrid
               responses={responses}
               isLoading={isLoading && !hasResponses}
               selectedModels={selectedModels}
             />
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground/30 text-sm italic">
+              Your model responses will appear here side by side.
+            </p>
           </div>
         )}
       </div>

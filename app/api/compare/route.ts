@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { headers } from "next/headers";
+import type { OpenRouterChunk } from "@/types";
 
 // Very simple in-memory rate limiter (Warning: State is reset on serverless function spin-up)
 const rateLimit = new Map<string, { count: number; timestamp: number }>();
@@ -161,7 +162,7 @@ async function streamOpenRouter(
       if (data === "[DONE]") break;
 
       try {
-        const parsed = JSON.parse(data);
+        const parsed = JSON.parse(data) as OpenRouterChunk;
         const content = parsed.choices?.[0]?.delta?.content;
         if (content) onChunk(content);
 

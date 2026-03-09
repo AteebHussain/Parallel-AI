@@ -18,14 +18,15 @@ export default function ExportBar({ targetId }: Props) {
       if (!element) return;
 
       const canvas = await html2canvas(element, {
-        backgroundColor: null,
+        backgroundColor: "#222831",
         scale: 2,
         useCORS: true,
         logging: false,
       });
 
       const link = document.createElement("a");
-      link.download = `parallelai-comparison-${Date.now()}.png`;
+      const date = new Date().toISOString().slice(0, 10);
+      link.download = `parallelai-${date}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
     } catch (err) {

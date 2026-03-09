@@ -2,13 +2,7 @@
 
 import { MODELS } from "@/lib/models";
 import ModelCard from "./ModelCard";
-
-type ResponseData = {
-  text?: string;
-  error?: string;
-  latency?: number;
-  tokens?: number;
-};
+import type { ResponseData } from "@/types";
 
 type Props = {
   responses: Record<string, ResponseData>;
