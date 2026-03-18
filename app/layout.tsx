@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ParallelAI — Compare AI Models Side by Side",
+  title: "ParallelAI | One Prompt. Multiple Models.",
   description:
     "Compare responses from multiple AI models side by side with latency and token tracking.",
 };
