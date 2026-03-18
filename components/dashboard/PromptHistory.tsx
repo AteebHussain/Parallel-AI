@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Clock, MessageSquare, ChevronLeft, ChevronRight, Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { HistoryEntry } from "@/types";
@@ -21,18 +22,37 @@ export default function PromptHistory({
   onClear,
   onDeleteEntry,
 }: Props) {
+  const sidebarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node) &&
+        !(event.target as Element).closest('button[title="View history"]') &&
+        !(event.target as Element).closest('button[title="Close history"]')
+      ) {
+        onToggle();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, onToggle]);
+
   return (
     <>
       {/* Toggle Button — always visible */}
       <button
         onClick={onToggle}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-secondary/10 border border-border border-l-0 rounded-r-xl p-2.5 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 backdrop-blur-md shadow-sm"
-        title={isOpen ? "Close history" : "Open history"}
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-secondary/10 border border-border border-l-0 rounded-r-[8px] w-[34px] h-[34px] flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 backdrop-blur-md shadow-sm"
+        title={isOpen ? "Close history" : "View history"}
       >
         {isOpen ? (
           <ChevronLeft className="w-4 h-4" />
         ) : (
-          <ChevronRight className="w-4 h-4" />
+          <Clock className="w-4 h-4" />
         )}
       </button>
 
@@ -40,18 +60,26 @@ export default function PromptHistory({
       <AnimatePresence>
         {isOpen && (
           <motion.aside
+            ref={sidebarRef}
             initial={{ x: -320, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-2xl border-r border-border z-40 flex flex-col shadow-sm"
+            className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-2xl border-r border-border z-40 flex flex-col shadow-sm pt-20"
           >
+            {/* Context Label */}
+            <div className="px-6 pt-2 -mb-2">
+              <span className="text-[11px] font-bold tracking-[0.1em] text-[#555] uppercase">
+                History
+              </span>
+            </div>
+
             {/* Header */}
             <div className="p-6 border-b border-border/50 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <MessageSquare className="w-4 h-4 text-primary" />
                 <h2 className="text-foreground font-bold text-sm tracking-wide">
-                  History
+                  Recent Prompts
                 </h2>
                 <span className="text-muted-foreground text-[10px] font-bold">
                   [{history.length}]
@@ -60,7 +88,7 @@ export default function PromptHistory({
               {history.length > 0 && (
                 <button
                   onClick={onClear}
-                  className="text-muted-foreground hover:text-primary transition-all p-1.5 rounded-lg hover:bg-primary/5"
+                  className="text-muted-foreground hover:text-primary transition-all p-1.5 rounded-[6px] hover:bg-primary/5"
                   title="Clear history"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -86,10 +114,10 @@ export default function PromptHistory({
                   >
                     <button
                       onClick={() => onSelect(entry)}
-                      className="w-full text-left p-4 rounded-xl bg-secondary/5 border border-border/50 hover:bg-secondary/10 hover:border-border transition-all duration-300 shadow-sm"
+                      className="w-full text-left p-4 rounded-[8px] bg-secondary/5 border border-border/50 hover:bg-secondary/10 hover:border-border transition-all duration-300 shadow-sm"
                     >
                       <p className="text-foreground/80 text-[13px] font-medium line-clamp-2 group-hover:text-foreground transition-colors leading-relaxed pr-6">
-                        {entry.prompt}
+                         {entry.prompt}
                       </p>
                       <div className="flex items-center justify-between mt-3">
                         <span className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-wider">
@@ -106,10 +134,10 @@ export default function PromptHistory({
                         e.stopPropagation();
                         onDeleteEntry(entry.id);
                       }}
-                      className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-[6px] text-muted-foreground/30 hover:text-white hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
                       title="Delete entry"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-4 h-4" />
                     </button>
                   </motion.div>
                 ))
@@ -139,9 +167,10 @@ function formatTime(date: Date) {
   const now = new Date();
   const diff = now.getTime() - new Date(date).getTime();
   const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return "Just now";
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes} ${minutes === 1 ? "min" : "mins"} ago`;
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
+  if (hours < 24) return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} ${days === 1 ? "day" : "days"} ago`;
 }

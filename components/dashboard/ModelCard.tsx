@@ -41,7 +41,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`rounded-2xl border p-5 flex flex-col gap-4 min-h-[300px] ${model.bgColor} backdrop-blur-md shadow-sm transition-colors duration-500`}
+      className={`rounded-[8px] border p-5 flex flex-col gap-4 min-h-[300px] ${model.bgColor} backdrop-blur-md shadow-sm transition-colors duration-500`}
     >
       {/* Card Header */}
       <div className="flex items-center justify-between">
@@ -64,7 +64,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
           {response?.tokens != null && response.tokens > 0 && (
             <Badge
               variant="outline"
-              className="text-foreground/60 border-border bg-muted/20 text-[10px] gap-1"
+              className="text-foreground/60 border-border bg-muted/20 text-[10px] gap-1 rounded-[4px]"
             >
               <Hash className="w-2.5 h-2.5" />
               {response.tokens}
@@ -112,7 +112,7 @@ export default function ModelCard({ model, response, isLoading }: Props) {
         <div className="flex justify-end pt-3 border-t border-border/50">
           <button
             onClick={handleCopy}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
               copied
                 ? "bg-[#3E3636] text-foreground border border-border shadow-sm"
                 : "bg-background/20 text-muted-foreground border border-border/50 hover:bg-[#3E3636] hover:text-foreground hover:border-border"

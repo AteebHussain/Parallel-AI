@@ -18,7 +18,7 @@ export default function ExportBar({ targetId }: Props) {
       if (!element) return;
 
       const canvas = await html2canvas(element, {
-        backgroundColor: "#000000",
+        backgroundColor: "#0D0D0D",
         scale: 2,
         useCORS: true,
         logging: false,

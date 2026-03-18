@@ -37,14 +37,14 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
   };
 
   return (
-    <div className="bg-[#000000] border border-border/50 rounded-2xl p-6 space-y-4 shadow-sm">
+    <div className="bg-background border border-[#2A2A2A] rounded-[8px] p-6 space-y-4 shadow-sm focus-within:border-[#E63946] focus-within:ring-2 focus-within:ring-[#E63946]/20 transition-all duration-200">
       {/* Model Selector */}
       <div className="flex flex-wrap gap-2">
         {MODELS.map((model) => (
           <button
             key={model.id}
             onClick={() => toggleModel(model.id)}
-            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
+            className={`px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
               selectedModels.includes(model.id)
                 ? `${model.bgColor} ${model.color} border-current shadow-sm`
                 : "bg-transparent text-muted-foreground/40 border-border/50 hover:border-border hover:text-muted-foreground"
@@ -61,7 +61,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Ask anything -- compare how each model responds..."
-        className="bg-[#3E3636] border-border text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus:ring-primary focus:border-primary focus-visible:ring-primary focus-visible:border-primary transition-all duration-300 rounded-xl shadow-inner outline-none"
+        className="bg-[#3E3636] border-none text-foreground placeholder:text-muted-foreground/40 resize-none min-h-[140px] text-sm focus-visible:ring-0 transition-all duration-300 rounded-[8px] shadow-inner outline-none"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) handleSubmit();
         }}
@@ -74,7 +74,7 @@ export default function PromptInput({ onCompare, isLoading, onReset }: Props) {
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="text-muted-foreground/60 hover:text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-wider"
+            className="text-muted-foreground/60 hover:text-primary hover:bg-primary/5 text-[10px] font-bold uppercase tracking-wider border border-[#333] rounded-[6px] px-[14px] py-[6px] h-auto transition-all duration-200"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-2" />
             Clear
