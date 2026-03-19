@@ -24,6 +24,7 @@ export default function Home() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const responsesRef = useRef<Record<string, ResponseData>>({});
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem(HISTORY_KEY);
@@ -42,6 +43,11 @@ export default function Home() {
     setResponses({});
     responsesRef.current = {};
     setStreamingModels(new Set(models));
+    
+    // Auto-scroll to results
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
 
     const startTimes: Record<string, number> = {};
     models.forEach((m) => (startTimes[m] = Date.now()));
@@ -202,19 +208,22 @@ export default function Home() {
           onReset={handleReset}
         />
 
-        {/* Export Bar */}
-        {!isLoading && hasResponses && (
-          <ExportBar targetId="comparison-results" />
-        )}
-
-        {/* Results Grid */}
+        {/* Results Section */}
         {(isLoading || hasResponses) ? (
-          <div id="comparison-results">
-            <ComparisonGrid
-              responses={responses}
-              isLoading={isLoading && !hasResponses}
-              selectedModels={selectedModels}
-            />
+          <div ref={resultsRef} className="space-y-4">
+            {!isLoading && hasResponses && (
+              <div className="flex justify-end pb-2">
+                <ExportBar targetId="comparison-results" />
+              </div>
+            )}
+            
+            <div id="comparison-results">
+              <ComparisonGrid
+                responses={responses}
+                isLoading={isLoading && !hasResponses}
+                selectedModels={selectedModels}
+              />
+            </div>
           </div>
         ) : (
           <div className="text-center py-20">

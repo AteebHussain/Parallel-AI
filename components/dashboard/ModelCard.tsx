@@ -41,7 +41,9 @@ export default function ModelCard({ model, response, isLoading }: Props) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`rounded-[8px] border p-5 flex flex-col gap-4 min-h-[300px] ${model.bgColor} backdrop-blur-md shadow-sm transition-colors duration-500`}
+      className={`rounded-[8px] border p-5 flex flex-col gap-4 ${
+        response?.error ? "min-h-0" : "min-h-[340px]"
+      } ${model.bgColor} backdrop-blur-md shadow-sm transition-colors duration-500`}
     >
       {/* Card Header */}
       <div className="flex items-center justify-between">
@@ -55,7 +57,13 @@ export default function ModelCard({ model, response, isLoading }: Props) {
           {response?.latency != null && response.latency > 0 && (
             <Badge
               variant="outline"
-              className="text-foreground/60 border-border bg-muted/20 text-[10px] gap-1"
+              className={`text-[10px] gap-1 font-bold ${
+                response.latency < 5000
+                  ? "text-green-500 border-green-500/30 bg-green-500/5"
+                  : response.latency < 15000
+                  ? "text-yellow-500 border-yellow-500/30 bg-yellow-500/5"
+                  : "text-red-500 border-red-500/30 bg-red-500/5"
+              }`}
             >
               <Clock className="w-2.5 h-2.5" />
               {(response.latency / 1000).toFixed(2)}s
@@ -76,9 +84,16 @@ export default function ModelCard({ model, response, isLoading }: Props) {
       {/* Card Body */}
       <div className="flex-1 relative overflow-auto custom-scrollbar">
         {isLoading && (
-          <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium">
-            <Loader2 className="w-3 h-3 animate-spin" />
-            <span>Generating response...</span>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-muted-foreground text-[11px] font-bold uppercase tracking-wider animate-pulse">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              <span>Streaming {model.name}...</span>
+            </div>
+            <div className="space-y-2">
+              <div className="h-3 w-full bg-foreground/5 rounded-[4px] animate-pulse" />
+              <div className="h-3 w-[90%] bg-foreground/5 rounded-[4px] animate-pulse" />
+              <div className="h-3 w-[75%] bg-foreground/5 rounded-[4px] animate-pulse" />
+            </div>
           </div>
         )}
 
@@ -112,15 +127,15 @@ export default function ModelCard({ model, response, isLoading }: Props) {
         <div className="flex justify-end pt-3 border-t border-border/50">
           <button
             onClick={handleCopy}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider transition-all duration-300 border ${
               copied
-                ? "bg-[#3E3636] text-foreground border border-border shadow-sm"
-                : "bg-background/20 text-muted-foreground border border-border/50 hover:bg-[#3E3636] hover:text-foreground hover:border-border"
+                ? "bg-primary/10 text-primary border-primary/30"
+                : "bg-background/20 text-muted-foreground border-[#333] hover:bg-foreground/5 hover:text-foreground hover:border-foreground/20"
             }`}
           >
             {copied ? (
               <>
-                <Check className="w-3 h-3 text-primary" />
+                <Check className="w-3 h-3" />
                 Copied
               </>
             ) : (
