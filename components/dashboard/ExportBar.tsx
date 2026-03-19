@@ -37,11 +37,11 @@ export default function ExportBar({ targetId }: Props) {
   };
 
   return (
-    <div className="flex items-center justify-end gap-2 pr-2">
+    <div className="flex items-center justify-end">
       <button
         onClick={exportPNG}
         disabled={exporting}
-        className="flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest bg-secondary/40 text-muted-foreground border border-border hover:bg-secondary/60 hover:text-foreground hover:border-border transition-all duration-300 disabled:opacity-40 shadow-sm"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider bg-background/50 text-muted-foreground border border-[#333] hover:bg-foreground/5 hover:text-foreground hover:border-foreground/20 transition-all duration-300 disabled:opacity-40 backdrop-blur-sm shadow-sm"
       >
         {exporting ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />

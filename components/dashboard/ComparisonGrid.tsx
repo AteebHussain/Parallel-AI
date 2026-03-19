@@ -26,7 +26,9 @@ export default function ComparisonGrid({
           ? "grid-cols-1"
           : visibleModels.length === 2
             ? "grid-cols-1 md:grid-cols-2"
-            : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+            : visibleModels.length === 4
+              ? "grid-cols-1 md:grid-cols-2"
+              : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
       }`}
     >
       {visibleModels.map((model) => (

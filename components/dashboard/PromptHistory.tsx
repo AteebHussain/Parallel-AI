@@ -65,7 +65,7 @@ export default function PromptHistory({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-2xl border-r border-border z-40 flex flex-col shadow-sm pt-20"
+            className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-2xl border-r border-border z-40 flex flex-col shadow-sm pt-24"
           >
             {/* Context Label */}
             <div className="px-6 pt-2 -mb-2">
@@ -134,10 +134,10 @@ export default function PromptHistory({
                         e.stopPropagation();
                         onDeleteEntry(entry.id);
                       }}
-                      className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-[6px] text-muted-foreground/30 hover:text-white hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center rounded-[8px] text-muted-foreground/30 hover:text-white hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
                       title="Delete entry"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-[18px] h-[18px]" />
                     </button>
                   </motion.div>
                 ))
