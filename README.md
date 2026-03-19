@@ -18,7 +18,7 @@ Compare AI models side by side. Type a prompt, pick your models, and see respons
 - **Copy to clipboard** — One-click copy on any response
 - **Prompt history** — Revisit past comparisons from the sidebar (persists in localStorage)
 - **Export as PNG** — Download comparison results as an image
-- **Dark theme** — Sleek dark UI built on the Set 3 color palette
+- **Dark theme** — Sleek dark UI built on Dark charcoal theme with amber accents
 
 ## Tech Stack
 
