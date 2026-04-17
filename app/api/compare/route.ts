@@ -32,6 +32,8 @@ export async function POST(req: NextRequest) {
   
   if (process.env.NODE_ENV === "production" && origin) {
     const isAllowedOrigin = 
+      origin.includes("localhost") ||
+      origin.includes("127.0.0.1") ||
       origin.includes("parallelai.vercel.app") || 
       (origin.includes("vercel.app") && origin.includes("parallel"));
       
